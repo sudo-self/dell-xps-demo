@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en" >
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+    <meta charset="UTF-8">
+        <title>Windows -- Laptop</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                background-color: #333;
+                color: #fff;
+                overflow: hidden;
+                transition: background-color 0.3s, color 0.3s;
+            }
+            
+            body.light-mode {
+                background-color: #f9f9f9;
+                color: #222;
+            }
+            
+            .macbook-container {
+                perspective: 1200px;
+                position: relative;
+                width: 600px;
+                height: 400px;
+            }
+            
+            .macbook {
+                position: relative;
+                transform-style: preserve-3d;
+                transform: rotateX(20deg) rotateY(0deg);
+                transition: transform 0.2s ease;
+            }
+            
+            .base, .screen {
+                position: absolute;
+                width: 300px;
+                height: 200px;
+                background: #333;
+                border-radius: 10px;
+            }
+            
+            .base {
+                top: 100px;
+                height: 20px;
+                background: linear-gradient(to bottom, #666, #333);
+            }
+            
+            .screen {
+                transform-origin: bottom center;
+                background: #111;
+                transform: rotateX(-90deg);
+            }
+            
+            .screen-front {
+                width: 100%;
+                height: 100%;
+                background: url('https://source.unsplash.com/800x600/?technology') center/cover;
+                border-radius: 10px;
+            }
+            
+            footer {
+                position: absolute;
+                bottom: 20px;
+                font-size: 12px;
+            }
+            
+            footer a {
+                color: #23b387;
+                text-decoration: none;
+            }
+            
+            .dark-mode-toggle {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: #fff;
+                border: none;
+                color: #fff;
+                border-radius: 5px;
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+            @import 'https://fonts.googleapis.com/css?family=Heebo:100';
+            *,
+            *:before,
+            *:after {
+                box-sizing: border-box;
+                padding: 0;
+                margin: 0;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            
+            body {
+                background-color: white;
+                font-family: "Heebo", sans-serif;
+                font-weight: 100;
+            }
+            
+            .animation-wrapper {
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.05);
+                position: relative;
+                perspective: 600px;
+                overflow: hidden;
+            }
+            
+            .animation-inner {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transform-style: preserve-3d;
+                -webkit-animation: intro-animation 5s forwards;
+                animation: intro-animation 5s forwards;
+            }
+            
+            .base-top,
+            .base-bottom,
+            .base-front,
+            .base-back,
+            .base-left,
+            .base-right {
+                position: absolute;
+                top: calc(50% - 25px);
+                left: calc(50% - 100px);
+                width: 200px;
+                height: 150px;
+            }
+            
+            .base-top,
+            .base-bottom {
+                background-color: #353935;
+            }
+            
+            .base-top {
+                background-image: url('https://pub-c1de1cb456e74d6bbbee111ba9e6c757.r2.dev/keyboard.png');
+                background-size: 190px auto;
+                background-repeat: no-repeat;
+                background-position: center 15px;
+            }
+            .base-top:after {
+                position: absolute;
+                content: "";
+                width: 60px;
+                height: 50px;
+                background-color: #1c2951;
+                border-radius: 2px;
+                bottom: 5px;
+                left: calc(50% - 30px);
+            }
+            
+            .base-bottom {
+                transform: translateZ(6px);
+            }
+            
+            .base-front,
+            .base-back {
+                background-color: #000;
+                height: 6px;
+            }
+            
+            .base-front {
+                transform: rotateX(90deg) translateZ(3px) translateY(3px);
+            }
+            
+            .base-back {
+                transform: rotateX(90deg) translateZ(-147px) translateY(3px);
+            }
+            
+            .base-left,
+            .base-right {
+                background-color: #353935;
+                height: 6px;
+                width: 150px;
+                left: calc(50% - 75px);
+            }
+            
+            .base-left {
+                transform: rotateY(90deg) rotateZ(90deg) translateZ(100px) translateX(72px) translateY(3px);
+            }
+            
+            .base-right {
+                transform: rotateY(90deg) rotateZ(90deg) translateZ(-100px) translateX(72px) translateY(3px);
+            }
+            
+            .screen {
+                position: absolute;
+                top: calc(50% - 175px);
+                left: calc(50% - 100px);
+                width: 200px;
+                height: 150px;
+                transform-style: preserve-3d;
+                transition: all 0.5s;
+                transform-origin: bottom left;
+                transform: rotateX(80deg);
+                -webkit-animation: intro-screen 5s forwards;
+                animation: intro-screen 5s forwards;
+            }
+            
+            .click .screen {
+                transform: rotateX(180deg);
+            }
+            
+            .screen-front,
+            .screen-back {
+                width: 200px;
+                height: 150px;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            
+            .screen-front {
+                background-color: #fff;
+                border: 5px solid black;
+                background-image: url("https://firebasestorage.googleapis.com/v0/b/jessejessexyz.appspot.com/o/helpdesk.jpg?alt=media&token=9a246a3c-4486-4f6a-a5a4-1a2980e931bb");
+                background-size: 100% 100%;
+                background-position: center center;
+                overflow: hidden;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                transform: rotateY(180deg);
+            }
+            .screen-front iframe {
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+            .screen-front:before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                content: "";
+                z-index: 3;
+            }
+            .screen-front:after {
+                position: absolute;
+                content: "";
+                top: 0;
+                left: 0;
+                background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+                width: 300px;
+                height: 300px;
+                transform: rotate(45deg) translateY(-50px) translateX(-250px);
+            }
+            
+            .screen-back {
+                background-color: #353935;
+                transform: translateZ(3px);
+                background-image: url(https://pub-c1de1cb456e74d6bbbee111ba9e6c757.r2.dev/win.png);
+                background-size: 25px 30px;
+                background-repeat: no-repeat;
+                background-position: center center;
+            }
+            
+            .screen-left,
+            .screen-right {
+                width: 3px;
+                height: 150px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background-color: #191970;
+            }
+            
+            .screen-left {
+                transform: rotateY(90deg) translateX(-1.5px);
+            }
+            
+            .screen-right {
+                transform: rotateY(90deg) translateX(-1.5px) translateZ(198px);
+            }
+            
+            .screen-top,
+            .screen-bottom {
+                width: 200px;
+                height: 3px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background-color: #353935;
+            }
+            
+            .screen-top {
+                transform: rotateX(90deg) translateY(1.5px) translateZ(1px);
+            }
+            
+            .screen-bottom {
+                transform: rotateX(90deg) translateY(1.5px) translateZ(-148px);
+            }
+            
+            @-webkit-keyframes intro-animation {
+                0% {
+                    transform: rotateY(0deg) rotateX(-45deg);
+                }
+                100% {
+                    transform: rotateY(180deg) rotateX(-90deg);
+                }
+            }
+            
+            @keyframes intro-animation {
+                0% {
+                    transform: rotateY(0deg) rotateX(-45deg);
+                }
+                100% {
+                    transform: rotateY(180deg) rotateX(-90deg);
+                }
+            }
+            @-webkit-keyframes intro-screen {
+                0% {
+                    transform: rotateX(180deg);
+                }
+                100% {
+                    transform: rotateX(80deg);
+                }
+            }
+            @keyframes intro-screen {
+                0% {
+                    transform: rotateX(180deg);
+                }
+                100% {
+                    transform: rotateX(80deg);
+                }
+            }
+            footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                padding: 20px;
+                z-index: 2;
+                text-align: right;
+            }
+            footer a {
+                text-decoration: none;
+                color: black;
+            }
+            
+            header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                padding: 20px;
+                z-index: 4;
+            }
+            header h1 {
+                font-weight: 100;
+                color: #000;
+            }
+            header h4 {
+                font-weight: 100;
+                color: #333;
+            }
+            
+            a {
+                text-decoration: none;
+            }
+            
+        </style>
+        <script>
+            var introAnimation = true;
+
+            $('body').on('mousemove', function(e){
+                
+                if(!introAnimation){
+                    
+                    var x = e.pageX;
+                    var y = e.pageY;
+
+                    $('.screen').css('animation', 'none');
+                    
+                    $('.animation-inner').css({
+                        'animation': 'none',
+                        'transform': 'rotateY(' + x + 'deg) rotateX(' + y + 'deg)'
+                    });
+                }
+                
+            });
+
+            $('body').on('mousedown', function(){
+                $('body').addClass('click');
+            });
+
+            $('body').on('mouseup mouseleave', function(){
+                $('body').removeClass('click');
+            });
+
+            setTimeout(function(){
+                introAnimation = false;
+            }, 5000);
+            </script>
+</head>
+<body>
+<header>
+	<h1>Dell XPS Laptop</h1>
+    <h4>Intel® Core™ Ultra 7 155H, 16 cores<br>
+    Windows 11 Pro<br>
+    Intel® Arc™ Graphics<br>
+    16 GB LPDDR5X<br>
+    512 GB SSD<br>
+    14.5" Non-Touch FHD+<br>
+    </h4>
+    <p><a href="https://helpdesk-lrs.pages.dev">Demo Virtual Desktop</a></p>
+
+</header>
+
+<div class="animation-wrapper">
+	<div class="animation-inner">
+		<div class="base-top"></div>
+		<div class="base-bottom"></div>
+		<div class="base-left"></div>
+		<div class="base-right"></div>
+		<div class="base-front"></div>
+		<div class="base-back"></div>
+		
+		<div class="screen">
+			<div class="screen-front"></div>
+			<div class="screen-back"></div>
+			<div class="screen-left"></div>
+			<div class="screen-right"></div>
+			<div class="screen-bottom"></div>
+			<div class="screen-top"></div>
+		</div>
+	</div>
+</div>
+
+<footer>
+	<a href="mailto:Rop20038@intellitec.edu" target="_blank">Rop20038@intellitec.edu</a>
+</footer>
+<script type="a2affd76c206811ec3fa9d1c-text/javascript">
+    var introAnimation = true;
+
+    $('body').on('mousemove', function(e){
+        
+        if(!introAnimation){
+            
+            var x = e.pageX;
+            var y = e.pageY;
+
+            $('.screen').css('animation', 'none');
+            
+            $('.animation-inner').css({
+                'animation': 'none',
+                'transform': 'rotateY(' + x + 'deg) rotateX(' + y + 'deg)'
+            });
+        }
+        
+    });
+
+    $('body').on('mousedown', function(){
+        $('body').addClass('click');
+    });
+
+    $('body').on('mouseup mouseleave', function(){
+        $('body').removeClass('click');
+    });
+
+    setTimeout(function(){
+        introAnimation = false;
+    }, 5000);
+    
+</script>
+
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js' type="a2affd76c206811ec3fa9d1c-text/javascript"></script><script src="script.js" type="a2affd76c206811ec3fa9d1c-text/javascript"></script>
+
+<script src="https://mac.jessejesse.xyz/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="a2affd76c206811ec3fa9d1c-|49" defer></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"935c2b0cae8fe745","version":"2025.4.0-1-g37f21b1","r":1,"serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"97888ef98a584171a35b9816edc7def9","b":1}' crossorigin="anonymous"></script>
+</body>
+
+</html>
